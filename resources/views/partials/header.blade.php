@@ -13,7 +13,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav me-auto">
 
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link {{ Route::current()->getName() == 'admin.projects.index' ? 'active' : '' }}"
                             aria-current="page" href="{{ route('admin.projects.index') }}">
                             Show projects</a>
@@ -30,7 +30,7 @@
                             aria-current="page" href="{{ route('admin.projects.create') }}">
                             New project
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <!-- Right Side Of Navbar -->
