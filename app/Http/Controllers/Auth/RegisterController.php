@@ -49,11 +49,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+        if(isset($data['isAdmin'])){
+            $data['isAdmin'] = 1;
+        } else{
+            $data['isAdmin'] = 0;
+        }
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'isAdmin' => ['required', 'boolean']
+            'isAdmin' => ['boolean']
         ]);
     }
 
