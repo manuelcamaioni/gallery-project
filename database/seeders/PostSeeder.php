@@ -21,7 +21,8 @@ class PostSeeder extends Seeder
             $newPost = new Post();
             $randomUserId= $faker->randomElement($userIds);
             $newPost->user_id = $randomUserId;
-            $newPost->image = 'https://unsplash.it/640/425?random';
+            $randomNumber = rand(1, 1000);
+            $newPost->image = "https://unsplash.it/640/425?image={$randomNumber}";
             $newPost->visible = true;
             $newPost->save();
         }
