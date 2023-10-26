@@ -76,8 +76,15 @@
                                     class="col-md-4 col-form-label text-md-end">{{ __('Are you an admin?') }}</label>
 
                                 <div class="col-md-6 d-flex align-items-center">
-                                    <input id="isAdmin" type="checkbox" name="isAdmin" value="false">
+
+                                    <input type="hidden" name="isAdmin" value="0">
+                                    <input type="checkbox" name="isAdmin" value="1">
                                 </div>
+                                @error('isAdmin')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="row mb-0">
