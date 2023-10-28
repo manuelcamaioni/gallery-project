@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                @if (Auth::user()->isAdmin)
+            @if (Auth::user()->isAdmin)
+                <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">{{ __('Dashboard Admin') }}</div>
 
@@ -29,8 +29,9 @@
                                     <div id="flush-collapseOne" class="accordion-collapse collapse"
                                         aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
+                                            <a class="btn btn-primary mb-3" href="{{ route('admin.user.create') }}">Add
+                                                user</a>
                                             <ul class="list">
-
                                                 @foreach ($users as $user)
                                                     @if ($user->name != Auth::user()->name)
                                                         <li class="d-flex justify-content-between mb-2">
@@ -38,17 +39,24 @@
                                                             <div class="actions">
                                                                 <a href={{ route('admin.user.edit', $user) }}
                                                                     class="btn btn-outline-success">Edit</a>
-                                                                <a href="{{ route('admin.user.destroy', $user) }}"
-                                                                    class="btn btn-outline-danger"
-                                                                    onclick="return confirm('The element will be deleted permanently. Do you want to proceed?')">Delete</a>
+                                                                <form class="d-inline-block"
+                                                                    action="{{ route('admin.user.destroy', $user) }}"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Are you sure you want to delete this element permanently')">
+                                                                    @csrf
+                                                                    @method('DELETE')
+
+                                                                    <button type="submit" class="btn btn-outline-danger">
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
                                                             </div>
                                                         </li>
                                                     @endif
                                                 @endforeach
 
                                             </ul>
-                                            <a class="btn btn-primary" href="{{ route('admin.user.create') }}">Add
-                                                user</a>
+
                                         </div>
                                     </div>
 
@@ -64,20 +72,40 @@
                                     <div id="flush-collapseTwo" class="accordion-collapse collapse"
                                         aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                                         <div class="accordion-body">
+                                            <a class="btn btn-primary" href="{{ route('admin.post.create') }}">Add post</a>
                                             <ul class="list">
                                                 @foreach ($users as $user)
                                                     <li class="text-center mt-3">
-                                                        {{ $user->name }}
+                                                        <h3 class="fw-bold">{{ $user->name . '\'s posts' }}</h3>
                                                         <ul class="list my-3">
                                                             @foreach ($user->posts as $post)
-                                                                <li class="my-2">
-                                                                    <img src="{{ $post->image }}" alt="">
+                                                                <li class="mb-4 card">
+                                                                    <img class="w-100" src="{{ $post->image }}"
+                                                                        alt="">
+                                                                    <div class="actions my-2 d-flex justify-content-around">
+                                                                        <a href={{ route('admin.post.edit', $post) }}
+                                                                            class="btn btn-outline-success">Edit</a>
+                                                                        <form class="d-inline-block"
+                                                                            action="{{ route('admin.post.destroy', $post) }}"
+                                                                            method="POST"
+                                                                            onsubmit="return confirm('Are you sure you want to delete this element permanently?')">
+                                                                            @csrf
+                                                                            @method('DELETE')
+
+                                                                            <button type="submit"
+                                                                                class="btn btn-outline-danger">
+                                                                                Delete
+                                                                            </button>
+                                                                        </form>
+
+                                                                    </div>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
                                                     </li>
                                                 @endforeach
                                             </ul>
+
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +127,34 @@
                                                         <ul class="list my-3">
                                                             @foreach ($user->comments as $comment)
                                                                 <li class="my-2 text-start">
-                                                                    {{ $comment->text }}
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p>Content</p>
+                                                                        <p class="w-75">{{ $comment->text }}</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p>Date</p>
+                                                                        <p>{{ $comment->created_at }}</p>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <p>Actions</p>
+                                                                        <div class='actions'>
+                                                                            <a href={{ route('admin.comment.edit', $comment) }}
+                                                                                class="btn btn-outline-success">Edit</a>
+                                                                            <form class="d-inline-block"
+                                                                                action="{{ route('admin.comment.destroy', $comment) }}"
+                                                                                method="POST"
+                                                                                onsubmit="return confirm('Are you sure you want to delete this element permanently')">
+                                                                                @csrf
+                                                                                @method('DELETE')
+
+                                                                                <button type="submit"
+                                                                                    class="btn btn-outline-danger">
+                                                                                    Delete
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+
+                                                                    </div>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
@@ -111,9 +166,9 @@
                                 </div>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="flush-headingFour">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#flush-collapseFour" aria-expanded="false"
-                                            aria-controls="flush-collapseFour">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseFour"
+                                            aria-expanded="false" aria-controls="flush-collapseFour">
                                             Tags
                                         </button>
                                     </h2>
@@ -122,10 +177,52 @@
                                         <div class="accordion-body">
                                             <ul class="list">
                                                 @foreach ($tags as $tag)
-                                                    <li class="text-center mt-3">
-                                                        {{ $tag->name }}
+                                                    <li class="mt-3 d-flex justify-content-between">
+                                                        <p>{{ $tag->name }}</p>
+                                                        <div>
+                                                            <a href={{ route('admin.tag.edit', $tag) }}
+                                                                class="btn btn-outline-success">Edit</a>
+                                                            <form class="d-inline-block"
+                                                                action="{{ route('admin.tag.destroy', $tag) }}"
+                                                                method="POST"
+                                                                onsubmit="return confirm('Are you sure you want to delete this element permanently')">
+                                                                @csrf
+                                                                @method('DELETE')
+
+                                                                <button type="submit" class="btn btn-outline-danger">
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </li>
                                                 @endforeach
+                                            </ul>
+                                            <a class="btn btn-primary" href="{{ route('admin.tag.create') }}">Add
+                                                tag</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-headingFive">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseFive"
+                                            aria-expanded="false" aria-controls="flush-collapseFive">
+                                            Reports
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseFive" class="accordion-collapse collapse"
+                                        aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body">
+                                            <ul class="list">
+                                                @if (count($reports) > 0)
+                                                    @foreach ($reports as $report)
+                                                        <li class="text-center mt-3">
+                                                            {{ $report->reason }}
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    <p>There are no reports.</p>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -133,7 +230,31 @@
                             </div>
                         </div>
                     </div>
-            </div>
+                </div>
+            @else
+                <div class="col-12 d-flex flex-wrap justify-content-center">
+
+                    @foreach ($posts as $post)
+                        @if ($post->visible == 1)
+                            <div class="card my-card">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <h3 class="mb-0">{{ $post->user->name }}</h3>
+                                    </li>
+                                    <li class="list-group-item p-0 miniature">
+                                        <a href="{{ route('admin.post.show', $post) }}">
+                                            <img class="w-100 p-0" src="{{ $post->image }}"
+                                                alt="{{ $post->user->name }}'s post">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                <div class="col-12 d-flex justify-content-center my-4">
+                    {{ $posts->links() }}
+                </div>
             @endif
         </div>
     </div>
