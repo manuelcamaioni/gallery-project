@@ -5,18 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
+use App\Models\Tag;
+use App\Models\Post;
 
-class UserController extends Controller
+class TagController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(){
-
-        return view('admin.userCrud.create');
-
+    public function create()
+    {
+        return view('admin.tagCrud.create');
     }
 
     /**
@@ -27,13 +34,10 @@ class UserController extends Controller
         $data = $request->all();
         $validated = Validator::make($data, [
             'name' => ['required', 'string'],
-            'email' => ['email', 'unique:users', 'required', 'min:5', 'max:50'],
-            'password' => ['required', 'string', 'min:8', 'max:30'],
-            'isAdmin' => ['boolean']
         ]);
 
-        $newUser = User::create($data);
-        $newUser->save();
+        $newTag = User::create($data);
+        $newTag->save();
 
         return redirect()->route('admin.home');
     }
@@ -41,42 +45,50 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Tag $tag)
     {
-        //
+        $posts = Post::whereHas('tags', function ($query) use ($tag) {
+            $query->where('id', $tag->id);
+        })->paginate(30);
+        return view('admin.tagCrud.show', compact('tag', 'posts'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(Tag $tag)
     {
-        return view('admin.userCrud.edit', compact('user'));
+        return view('admin.tagCrud.edit', compact('tag'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Tag $tag)
     {
         $data = $request->all();
         $validated = Validator::make($data, [
             'name' => ['required', 'string'],
-            'email' => ['email', 'unique:users', 'required', 'min:5', 'max:50'],
-            'password' => ['required', 'string', 'min:8', 'max:30'],
-            'isAdmin' => ['boolean']
         ]);
 
-        $user->update($data);
+        $tag->update($data);
+
         return redirect()->route('admin.home');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Tag $tag)
     {
-        $user->delete();
+        if (request()->has('confirmed')) {
+
+           $tag->delete();
+            return redirect()->route('admin.home');
+        } else {
+            return redirect()->back();
+        }
+
         return redirect()->route('admin.home');
     }
 }
