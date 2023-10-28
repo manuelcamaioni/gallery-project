@@ -9,11 +9,23 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $fillable =[
+        'image', 'user_id', 'visible'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
 
     public function tags(){
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function reports(){
+        return $this->belongsToMany(Report::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 }
