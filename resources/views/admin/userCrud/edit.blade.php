@@ -57,6 +57,18 @@
                             {{ $user->isAdmin == 1 ? 'checked' : '' }}>
                     </div>
 
+                    @error('active')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="mb-5">
+                        <label for="active" class="form-label">
+                            Active account
+                        </label>
+                        <input type="hidden" name="active" id="active" value="0">
+                        <input type="checkbox" name="active" id="active" value="1"
+                            {{ $user->active == 1 ? 'checked' : '' }}>
+                    </div>
+
 
                     <div class="mb-3">
                         <button type="submit" class="me-3 btn btn-primary">

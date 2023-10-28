@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             $newUser->email = $faker->email();
             $newUser->password = '12345678';
             $newUser->isAdmin = false;
+            $newUser->active = true;
             $newUser->save();
         }
     }

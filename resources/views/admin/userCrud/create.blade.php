@@ -55,6 +55,17 @@
                         <input type="checkbox" name="isAdmin" id="isAdmin" value="1">
                     </div>
 
+                    @error('active')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="mb-5">
+                        <label for="active" class="form-label">
+                            Is this an active account?
+                        </label>
+                        <input type="hidden" name="active" id="active" value="0">
+                        <input type="checkbox" name="active" id="active" value="1">
+                    </div>
+
 
                     <div class="mb-3">
                         <button type="submit" class="me-3 btn btn-primary">
