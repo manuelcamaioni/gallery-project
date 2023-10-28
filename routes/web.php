@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\DashboardController as HomeController;
 use App\Http\Controllers\Admin\UserController as UserCrudController;
-
+use App\Http\Controllers\Admin\TagController as TagCrudController;
+use App\Http\Controllers\Admin\PostController as PostCrudController;
+use App\Http\Controllers\Admin\CommentController as CommentCrudController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,11 +24,9 @@ Auth::routes();
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::resource('user', UserCrudController::class);
-    // Route::get('/projects/deleted', [AdminController::class, 'deletedIndex'])->name('projects.deleted');
-    // Route::post('/projects/deleted/{post}', [AdminController::class, 'restore'])->name('projects.restore');
-    // Route::delete('/projects/deleted/{post}', [AdminController::class, 'hardDelete'])->name('projects.hard-delete');
-    // Route::resource('/projects', AdminController::class);
-
+    Route::resource('tag', TagCrudController::class);
+    Route::resource('post', PostCrudController::class);
+    Route::resource('comment', CommentCrudController::class);
 });
 
 
