@@ -36,6 +36,7 @@
                                                     @if ($user->name != Auth::user()->name)
                                                         <li class="d-flex justify-content-between mb-2">
                                                             <span>{{ $user->name }}</span>
+                                                            <span>{{$user->email}}</span>
                                                             <div class="actions">
                                                                 <a href={{ route('admin.user.edit', $user) }}
                                                                     class="btn btn-outline-success">Edit</a>
@@ -126,36 +127,38 @@
                                                         {{ $user->name }}
                                                         <ul class="list my-3">
                                                             @foreach ($user->comments as $comment)
-                                                                <li class="my-2 text-start">
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <p>Content</p>
-                                                                        <p class="w-75">{{ $comment->text }}</p>
-                                                                    </div>
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <p>Date</p>
-                                                                        <p>{{ $comment->created_at }}</p>
-                                                                    </div>
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <p>Actions</p>
-                                                                        <div class='actions'>
-                                                                            <a href={{ route('admin.comment.edit', $comment) }}
-                                                                                class="btn btn-outline-success">Edit</a>
-                                                                            <form class="d-inline-block"
-                                                                                action="{{ route('admin.comment.destroy', $comment) }}"
-                                                                                method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to delete this element permanently')">
-                                                                                @csrf
-                                                                                @method('DELETE')
-
-                                                                                <button type="submit"
-                                                                                    class="btn btn-outline-danger">
-                                                                                    Delete
-                                                                                </button>
-                                                                            </form>
+                                                                @if ($comment->visible == 1)
+                                                                    <li class="my-2 text-start">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p>Content</p>
+                                                                            <p class="w-75">{{ $comment->text }}</p>
                                                                         </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p>Date</p>
+                                                                            <p>{{ $comment->created_at }}</p>
+                                                                        </div>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p>Actions</p>
+                                                                            <div class='actions'>
+                                                                                <a href={{ route('admin.comment.edit', $comment) }}
+                                                                                    class="btn btn-outline-success">Edit</a>
+                                                                                <form class="d-inline-block"
+                                                                                    action="{{ route('admin.comment.destroy', $comment) }}"
+                                                                                    method="POST"
+                                                                                    onsubmit="return confirm('Are you sure you want to delete this element permanently')">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
 
-                                                                    </div>
-                                                                </li>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-outline-danger">
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </li>
+                                                                @endif
                                                             @endforeach
                                                         </ul>
                                                     </li>

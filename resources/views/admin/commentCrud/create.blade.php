@@ -4,10 +4,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <form action="{{ route('admin.comment.update') }}" method="POST">
+                <form action="{{ route('admin.comment.store') }}" method="POST">
                     @csrf
 
-                    <h2>{{ $comment->user->name . '\'s comment on' }} {{ $comment->post->user->name . '\'s post' }}</h2>
 
                     <div class="mb-5">
                         <label for="user" class="form-label d-block">
@@ -28,16 +27,13 @@
                         <label for="visible" class="form-label">
                             Visible
                         </label>
-                        @if ($comment->visible == 1)
-                            <input type="checkbox" name="visible" value="1" checked>
-                        @else
-                            <input type="hidden" name="visible" value="0">
-                        @endif
+                        <input type="checkbox" name="visible" value="1" checked>
+                        <input type="hidden" name="visible" value="0">
                     </div>
 
                     <div class="mb-3">
                         <button type="submit" class="me-3 btn btn-primary">
-                            Update comment
+                            Create comment
                         </button>
                         <button type="reset" class="btn btn-warning">
                             Reset

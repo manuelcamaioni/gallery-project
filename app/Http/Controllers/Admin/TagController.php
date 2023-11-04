@@ -36,7 +36,7 @@ class TagController extends Controller
             'name' => ['required', 'string'],
         ]);
 
-        $newTag = User::create($data);
+        $newTag = Tag::create($data);
         $newTag->save();
 
         return redirect()->route('admin.home');

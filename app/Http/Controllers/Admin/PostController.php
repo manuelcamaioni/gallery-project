@@ -76,6 +76,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $data = $request->all();
+
         $validated = Validator::make($data, [
             'name' => ['required', 'string'],
             'user_id' => ['required'],
@@ -84,9 +85,9 @@ class PostController extends Controller
             'tags' => ['array', 'min:1', 'required']
         ]);
 
-        $post->tags()->sync($data['tags']);
 
         $post->update($data);
+        $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.home');
     }

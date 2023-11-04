@@ -4,8 +4,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <form action="{{ route('admin.post.store') }}" method="POST">
+                <form action="{{ route('admin.post.update', $post) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="mb-5">
                         <label for="user" class="form-label d-block">

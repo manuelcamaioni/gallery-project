@@ -29,7 +29,8 @@ class UserController extends Controller
             'name' => ['required', 'string'],
             'email' => ['email', 'unique:users', 'required', 'min:5', 'max:50'],
             'password' => ['required', 'string', 'min:8', 'max:30'],
-            'isAdmin' => ['boolean']
+            'isAdmin' => ['boolean'],
+            'gender' => ['string', 'max:1']
         ]);
 
         $newUser = User::create($data);

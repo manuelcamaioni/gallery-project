@@ -69,6 +69,16 @@
                             {{ $user->active == 1 ? 'checked' : '' }}>
                     </div>
 
+                    @error('gender')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    <div class="mb-5">
+                        <label for="gender" class="form-label">
+                            Gender
+                        </label>
+                        <input type="text" name="gender" id="gender" value="{{ $user->gender }}">
+                    </div>
+
 
                     <div class="mb-3">
                         <button type="submit" class="me-3 btn btn-primary">
